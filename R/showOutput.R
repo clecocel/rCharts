@@ -8,7 +8,10 @@
 #' @params package name where js library resides
 #' @export
 chartOutput <- showOutput <- function(outputId, lib = NULL, package = 'rCharts', 
-    add_lib = TRUE){
+    add_lib = TRUE, width = "100%", height = "400px"){
+  style <- {
+    paste("width:", validateCssUnit(width), ";", "height:", validateCssUnit(height))
+  }
   if (!is.null(lib)){
     LIB <- get_lib(lib, package = package)
   } else if (exists(".rChart_object")) {
@@ -20,7 +23,8 @@ chartOutput <- showOutput <- function(outputId, lib = NULL, package = 'rCharts',
   div(
     id = outputId, 
     class=paste('shiny-html-output', 'rChart', basename(LIB$name)),
-    ifelse(add_lib, tagList(get_assets_shiny(LIB)), "")
+    ifelse(add_lib, tagList(get_assets_shiny(LIB)), ""),
+    style=style
   )
 }
 
